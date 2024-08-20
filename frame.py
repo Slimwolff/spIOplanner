@@ -37,17 +37,10 @@ def load_sheet():
                 else:
                     cols.append(column)
             
-            cols = df.columns
-
-            print("colunas",cols)
             # Insert column names into the listbox
-            for column in df.columns:
-                if(_global_cond_ == True):
-                    print("first column ignored")
-                    changeCond()
-                else:
-                    listbox.insert(tk.END, column)
-                    
+            for k in cols:
+                listbox.insert(tk.END, k)
+                global_data[k] = data_boilerplate
                     
         except Exception as e:
             messagebox.showerror("Error", f"Could not load file: {e}")
@@ -108,12 +101,18 @@ entry.pack(side="left")
 listFrame = tk.Frame(root, width=100, height=300)
 listFrame.pack(side="left", fill="both", expand=True)
 
+def on_select(event):
+    selected_indices = listbox.curselection()[0]
+    keys= list(global_data.keys())
+    text= keys[selected_indices]
+    label.config(text=text)
+
 # Create a listbox to display the column names
 listbox = tk.Listbox(listFrame, width=50, height=80)
 listbox.pack(pady=20, padx=20 )
+listbox.bind('<<ListboxSelect>>', on_select)
 
-
-scrollbar = tk.Scrollbar(frame1)
+scrollbar = tk.Scrollbar(listFrame)
 scrollbar.pack(side="right", fill="y")
 # listbox.config(yscrollcommand=scrollbar.set)
 # scrollbar.config(command = listbox.yview) 
