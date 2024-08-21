@@ -1,126 +1,108 @@
-# Import Module
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
-import pandas as pd
+from tkinter import ttk
 
-_global_cond_ = False
+class MainFrame: 
+    def __init__(self, root, geometry):
+        self.root = root
+        self.root.title("Spreadsheet IO Importer")
+        self.root.geometry(geometry)
 
-global_data = {}
+class Frame:
+    def __init__(self, parent, **kwargs):
+        self.frame = tk.Frame(parent, **kwargs)
 
-data_boilerplate = {
-    "column": "",
-    "max_char": -1,
-    "reduceLast": -1,
-    "remove": "",
-    "$": []
-}
+    def pack(self, **kwargs):
+        self.frame.pack(**kwargs)
 
+    def grid(self, **kwargs):
+        self.frame.grid(**kwargs)
 
-def load_sheet():
-    # Open a file dialog to select the Excel file
-    file_path = filedialog.askopenfilename(filetypes=[("Files", "*.csv")])
+class Entry:
+    def __init__(self, parent):
+        self.entry = tk.Entry(parent)
+
+    def pack(self, **kwargs):
+        self.entry.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self.entry.grid(**kwargs)
+
+    def get(self):
+        return self.entry.get()
+
+class Label:
+    def __init__(self, parent, text):
+        self.label = tk.Label(parent,text=text)
+
+    def pack(self, **kwargs):
+        self.label.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self.label.grid(**kwargs)
+
+    def get(self):
+        return self.label.get()
     
-    if file_path:
-        try:
-            # Read the Excel file
-            df = pd.read_csv(file_path,sep=";",encoding_errors=False,engine='python',na_filter=False)
-            
-            # Clear the listbox before showing new column names
-            listbox.delete(0, tk.END)
-            
-            cols = []
+class Button:
+    def __init__(self, parent, text, command):
+        self.button = tk.Button(parent, text=text, command=command)
 
-            for column in df.columns:
-                if(_global_cond_ == True):
-                    print("first column ignored")
-                    changeCond()
-                else:
-                    cols.append(column)
-            
-            # Insert column names into the listbox
-            for k in cols:
-                listbox.insert(tk.END, k)
-                global_data[k] = data_boilerplate
-                    
-        except Exception as e:
-            messagebox.showerror("Error", f"Could not load file: {e}")
+    def pack(self, **kwargs):
+        self.button.pack(**kwargs)
 
-# create root window
-root = tk.Tk()
- 
-# root window title and dimension
-root.title("SpreadSheets IO Importation")
-# Set geometry(widthxheight)
-root.geometry('700x550')
- 
-# Create first container
-frame1 = tk.Frame(root, width=200, height=300)
-frame1.pack(side="top", fill="both", expand=True)
+    def grid(self, **kwargs):
+        self.button.grid(**kwargs)
 
-# Create the second container (Frame)
-frame2 = tk.Frame(root, width=200, height=300)
-frame2.pack(side="right", fill="both", expand=True)
+class Listbox:
+    def __init__(self, parent, **kwargs):
+        self.listbox = tk.Listbox(parent, **kwargs)
 
-# create container to encapsulate elements
-select_column = tk.Frame(frame2, width=100, height=80)
-select_column.pack(side="top", fill="x")
+    def pack(self, **kwargs):
+        self.listbox.pack(**kwargs)
 
-label_sc = tk.Label(select_column, text="selecionar coluna").pack(side="left",padx=10)
+    def grid(self, **kwargs):
+        self.listbox.grid(**kwargs)
 
-dropdown_var = tk.StringVar()
-dropdown = ttk.Combobox(select_column, textvariable=dropdown_var)
-dropdown['values'] = ('First', 'Second', 'Third')
-dropdown.current(0)  # Set the default option to 'First'
-dropdown.pack(pady=20)
+    def bind(self, sequence: str | None, func):
+        self.listbox.bind(sequence=sequence,func=func)
 
-def changeCond():
-    global _global_cond_ 
-    _global_cond_ = not _global_cond_
-    print(_global_cond_)
+class Dropdown:
+    def __init__(self, parent, **kwargs):
+        self.dropdown = ttk.Combobox(parent, **kwargs)
 
-var1 = tk.BooleanVar()
-cb1 = tk.Checkbutton(frame1, text="Ignorar Primeira coluna", variable=var1, command=changeCond)
-cb1.pack(side="left")
+    def pack(self, **kwargs):
+        self.dropdown.pack(**kwargs)
 
-# Create and place the Submit button
-submit_button = tk.Button(frame1, text="Submit Sheet", command=load_sheet)
-submit_button.pack(ipady=10,ipadx=40)
+    def grid(self, **kwargs):
+        self.dropdown.grid(**kwargs)
 
+    def current(self, i: int):
+        self.dropdown.current(i)
 
+class Data:
+    def __init__(self):
+        self._attributes = {}
 
-# Create a label
-label = tk.Label(frame2, text="Remover caracteres:")
-label.pack(side="left",padx=10)
+    def __setitem__(self, key, value):
+        self._attributes[key] = value
 
+    def __getitem__(self, key):
+        return self._attributes[key]
+    
+    def __getattr__(self, key):
+        getattr(self, key)
 
-# Create a text input field
-entry = tk.Entry(frame2, width=30)
-entry.pack(side="left")
+    def __setattr__(self, key, value):
+        if key == '_attributes':
+            super().__setattr__(key, value)
+        else:
+            self._attributes[key] = value
 
+    def keys(self):
+        return self._attributes.keys()
 
-listFrame = tk.Frame(root, width=100, height=300)
-listFrame.pack(side="left", fill="both", expand=True)
+    def values(self):
+        return self._attributes.values()
 
-def on_select(event):
-    selected_indices = listbox.curselection()[0]
-    keys= list(global_data.keys())
-    text= keys[selected_indices]
-    label.config(text=text)
-
-# Create a listbox to display the column names
-listbox = tk.Listbox(listFrame, width=50, height=80)
-listbox.pack(pady=20, padx=20 )
-listbox.bind('<<ListboxSelect>>', on_select)
-
-scrollbar = tk.Scrollbar(listFrame)
-scrollbar.pack(side="right", fill="y")
-# listbox.config(yscrollcommand=scrollbar.set)
-# scrollbar.config(command = listbox.yview) 
-
-# setting scrollbar command parameter  
-# to listbox.yview method its yview because 
-# we need to have a vertical view 
-
-# Execute Tkinter
-root.mainloop()
-
+    def items(self):
+        return self._attributes.items()
