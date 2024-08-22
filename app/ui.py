@@ -1,22 +1,34 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import Menu, filedialog, messagebox, ttk
+from app.methods import Applogic, Applogic2
+def od():
+    pass
+
+def sd():
+    pass
 
 class MainFrame:
     def __init__(self, root, geometry, master=None):
+        self.logic = Applogic(self)
+        self.logic2 = Applogic2(self)
         self.root = root
         self.root.title("SpreadSheets IO Importation")
         self.root.geometry(geometry)
-        self.mainloop = self.root.mainloop
+        self.menu_bar = Menu(root)
+        self.root.config(menu=self.menu_bar)
+        self.file_menu = Menu(self.menu_bar, tearoff=0)
+        self.menu_bar.add_cascade(label="File", menu=self.file_menu)
+        self.file_menu.add_command(label="Open", command=od)
+        self.file_menu.add_command(label="Save", command=sd)
+
+
         self.top = Top_panel(self.root, width=200, background='blue', height=150)
         self.top.pack(side='top', fill='x', expand=True)
+        self.top.button_config(command=self.logic.load_sheet)
 
-        top = self.top
-
-        print(top)
-        # self.checked = tk.BooleanVar()
-        # self.checkbox = Checkbox(parent=self.top, text="Ignorar Primeira Coluna",var=self.checked)        
-        # self.checkbox.pack(side="left")
-
+        self.left = Left_panel(self.root, width=300, height=600)
+        self.left.pack(side='left', fill='both', expand=True)
+        self.left.bind('<<ListboxSelect>>', self.logic2.on_select)
         
 
         # self.left = Frame(self.root,width=300, height=600)
@@ -27,8 +39,8 @@ class MainFrame:
 
         
 
-def cmd(msg: str ):
-    return print(msg)
+def cmd( ):
+    return print('AAA')
 
 class Frame:
     def __init__(self, parent, **kwargs):
@@ -43,8 +55,30 @@ class Frame:
 class Top_panel:
     def __init__(self, parent, **kwargs):
         self.frame = tk.Frame(parent, **kwargs)
-        self.btn = Button(self.frame,"Submit sheets",com=cmd)
-        self.btn.pack(ipadx=10,ipady=50)
+        self.frame.pack(side='top')
+        self.func = cmd
+        self.btn = Button(self.frame,"Submit sheets")
+        self.btn.pack(ipadx=10,ipady=10)
+        self.checked = tk.BooleanVar()
+        self.checkbox = Checkbox(self.frame, text="Ignorar Primeira Coluna",var=self.checked)        
+        self.checkbox.pack(side="left")
+
+    def pack(self, **kwargs):
+        self.frame.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self.frame.grid(**kwargs)
+
+    def button_config(self, **kwargs):
+        self.btn.config(**kwargs)
+
+class Left_panel:
+    def __init__(self, parent, **kwargs):
+        self.frame = tk.Frame(parent, **kwargs)
+        self.listbox = Listbox(parent=parent, width=50, height=80)
+        self.listbox.pack(pady=20, padx=20)
+        self.bind = self.listbox.bind()
+
 
     def pack(self, **kwargs):
         self.frame.pack(**kwargs)
@@ -79,14 +113,17 @@ class Label:
         return self.label.get()
     
 class Button:
-    def __init__(self, parent, text, com):
-        self.button = tk.Button(parent, text=text, command=com, background="green")
+    def __init__(self, parent, text):
+        self.button = tk.Button(parent, text=text, background="green")
     
     def pack(self, **kwargs):
         self.button.pack(**kwargs)
 
     def grid(self, **kwargs):
         self.button.grid(**kwargs)
+
+    def config(self, **kwargs):
+        self.button.config(**kwargs)
 
 class Checkbox:
     def __init__(self, parent, text, var):
@@ -97,6 +134,8 @@ class Checkbox:
 
     def grid(self, **kwargs):
         self.checkbutton.grid(**kwargs)  
+    
+    
 
 class Listbox:
     def __init__(self, parent, **kwargs):
@@ -108,8 +147,17 @@ class Listbox:
     def grid(self, **kwargs):
         self.listbox.grid(**kwargs)
 
-    def bind(self, sequence: str | None, func):
-        self.listbox.bind(sequence=sequence,func=func)
+    def delete(self):
+        self.listbox.delete(0, tk.END)
+
+    def insert(self, s, e):
+        self.listbox.insert(s, e)
+
+    def bind(self, **kwargs):
+        return self.listbox.bind(**kwargs)
+    
+    def curselection(self):
+        return self.listbox.curselection()
 
 class Dropdown:
     def __init__(self, parent, **kwargs):

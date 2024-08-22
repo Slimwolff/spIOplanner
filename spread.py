@@ -1,6 +1,6 @@
 # Import Module
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import Menu, filedialog, messagebox, ttk
 import pandas as pd
 
 _global_cond_ = False
@@ -52,7 +52,22 @@ root = tk.Tk()
 root.title("SpreadSheets IO Importation")
 # Set geometry(widthxheight)
 root.geometry('700x550')
- 
+
+def od():
+    print('open data')
+
+def sd():
+    print('save data')
+
+# Create menu
+menu_bar = Menu(root)
+root.config(menu=menu_bar)
+
+file_menu = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="Open", command=od)
+file_menu.add_command(label="Save", command=sd)
+
 # Create first container
 frame1 = tk.Frame(root, width=200, height=300)
 frame1.pack(side="top", fill="both", expand=True)
@@ -110,7 +125,7 @@ def on_select(event):
 
 # Create a listbox to display the column names
 listbox = tk.Listbox(listFrame, width=50, height=80)
-listbox.pack(pady=20, padx=20 )
+listbox.pack(pady=20, padx=20)
 listbox.bind('<<ListboxSelect>>', on_select)
 
 scrollbar = tk.Scrollbar(listFrame)
