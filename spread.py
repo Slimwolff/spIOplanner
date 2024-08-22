@@ -61,6 +61,7 @@ frame1.pack(side="top", fill="both", expand=True)
 frame2 = tk.Frame(root, width=200, height=300)
 frame2.pack(side="right", fill="both", expand=True)
 
+
 # create container to encapsulate elements
 select_column = tk.Frame(frame2, width=100, height=80)
 select_column.pack(side="top", fill="x")
@@ -74,18 +75,18 @@ dropdown.current(0)  # Set the default option to 'First'
 dropdown.pack(pady=20)
 
 def changeCond():
-    global _global_cond_ 
-    _global_cond_ = not _global_cond_
-    print(_global_cond_)
+    global var1
+    print(var1.get())
 
 var1 = tk.BooleanVar()
 cb1 = tk.Checkbutton(frame1, text="Ignorar Primeira coluna", variable=var1, command=changeCond)
 cb1.pack(side="left")
 
+
 # Create and place the Submit button
 submit_button = tk.Button(frame1, text="Submit Sheet", command=load_sheet)
 submit_button.pack(ipady=10,ipadx=40)
-
+print(frame1, submit_button)
 
 
 # Create a label
