@@ -1,15 +1,50 @@
 import tkinter as tk
 from tkinter import ttk
 
-class MainFrame: 
-    def __init__(self, root, geometry):
+class MainFrame:
+    def __init__(self, root, geometry, master=None):
         self.root = root
-        self.root.title("Spreadsheet IO Importer")
+        self.root.title("SpreadSheets IO Importation")
         self.root.geometry(geometry)
+        self.mainloop = self.root.mainloop
+        self.top = Top_panel(self.root, width=200, background='blue', height=150)
+        self.top.pack(side='top', fill='x', expand=True)
+
+        top = self.top
+
+        print(top)
+        # self.checked = tk.BooleanVar()
+        # self.checkbox = Checkbox(parent=self.top, text="Ignorar Primeira Coluna",var=self.checked)        
+        # self.checkbox.pack(side="left")
+
+        
+
+        # self.left = Frame(self.root,width=300, height=600)
+        # self.left.pack(side='left', fill='both', expand=True)
+
+        # self.right = Frame(self.root,width=300, height=600)
+        # self.right.pack(side='right', fill='both', expand=True)
+
+        
+
+def cmd(msg: str ):
+    return print(msg)
 
 class Frame:
     def __init__(self, parent, **kwargs):
         self.frame = tk.Frame(parent, **kwargs)
+
+    def pack(self, **kwargs):
+        self.frame.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self.frame.grid(**kwargs)
+
+class Top_panel:
+    def __init__(self, parent, **kwargs):
+        self.frame = tk.Frame(parent, **kwargs)
+        self.btn = Button(self.frame,"Submit sheets",com=cmd)
+        self.btn.pack(ipadx=10,ipady=50)
 
     def pack(self, **kwargs):
         self.frame.pack(**kwargs)
@@ -44,14 +79,24 @@ class Label:
         return self.label.get()
     
 class Button:
-    def __init__(self, parent, text, command):
-        self.button = tk.Button(parent, text=text, command=command)
-
+    def __init__(self, parent, text, com):
+        self.button = tk.Button(parent, text=text, command=com, background="green")
+    
     def pack(self, **kwargs):
         self.button.pack(**kwargs)
 
     def grid(self, **kwargs):
         self.button.grid(**kwargs)
+
+class Checkbox:
+    def __init__(self, parent, text, var):
+        self.checkbutton = tk.Checkbutton(master=parent, text=text, variable=var)
+
+    def pack(self, **kwargs):
+        self.checkbutton.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self.checkbutton.grid(**kwargs)  
 
 class Listbox:
     def __init__(self, parent, **kwargs):
