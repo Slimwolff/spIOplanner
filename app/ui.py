@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import Menu, filedialog, messagebox, ttk
-from app.methods import Applogic, Applogic2
+from app.methods import Applogic
+
 def od():
     pass
 
