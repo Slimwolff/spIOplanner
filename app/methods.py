@@ -38,8 +38,8 @@ class Applogic:
                 df = pd.read_csv(file_path, sep=";", encoding_errors=False, engine='python', na_filter=False)
                 
                 # Clear the listbox before showing new column names
-                self.ui.left.listbox.delete()
-                
+                self.ui.left.listbox.delete(0, tk.END)
+               
                 cols = []
                 cond = self.ui.top.checked.get()  # Access checked state from MainFrame
                 for column in df.columns:
