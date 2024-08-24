@@ -8,6 +8,14 @@ def od():
 def sd():
     pass
 
+class WidModify:
+    def __init__(self, anywidget):
+        self.any = anywidget
+    def pack(self, **kwargs):
+        self.any.pack(**kwargs)
+    def grid(self, **kwargs):
+        self.any.grid(**kwargs)
+
 class MainFrame:
     def __init__(self, root, geometry, master=None):
         self.logic = Applogic(self)
