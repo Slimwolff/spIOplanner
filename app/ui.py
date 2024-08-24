@@ -17,9 +17,8 @@ class WidModify:
         self.any.grid(**kwargs)
 
 class MainFrame:
-    def __init__(self, root, geometry, master=None):
+    def __init__(self, root, geometry):
         self.logic = Applogic(self)
-        self.logic2 = Applogic2(self)
         self.root = root
         self.root.title("SpreadSheets IO Importation")
         self.root.geometry(geometry)
