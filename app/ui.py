@@ -24,7 +24,7 @@ class MainFrame:
 
         self.top = Top_panel(self.root, width=200, background='blue', height=150)
         self.top.pack(side='top', fill='x', expand=True)
-        self.top.button_config(command=self.logic.load_sheet)
+        self.top.button.config(command=self.logic.load_sheet)
 
         self.left = Left_panel(self.root, width=300, height=600)
         self.left.pack(side='left', fill='both', expand=True)
