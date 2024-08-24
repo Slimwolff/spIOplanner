@@ -38,140 +38,49 @@ class MainFrame:
         self.left.pack(side='left', fill='both', expand=True)
         self.left.listbox.bind(sequence='<<ListboxSelect>>', func=self.logic.on_select)
 
+        self.right = Right_panel(self.root, width=300, height=600)
+        self.right.pack(side='right', fill='both', expand=True)
         
-
-def cmd( ):
-    return print('AAA')
-
-class Frame:
+class Top_panel(WidModify):
     def __init__(self, parent, **kwargs):
         self.frame = tk.Frame(parent, **kwargs)
-
-    def pack(self, **kwargs):
-        self.frame.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.frame.grid(**kwargs)
-
-class Top_panel:
-    def __init__(self, parent, **kwargs):
-        self.frame = tk.Frame(parent, **kwargs)
+        super().__init__(self.frame)
         self.frame.pack(side='top')
-        self.func = cmd
-        self.btn = Button(self.frame,"Submit sheets")
-        self.btn.pack(ipadx=10,ipady=10)
+
+        self.button = tk.Button(self.frame,text="Submit sheets")
+        self.button.pack(ipadx=10,ipady=10)
         self.checked = tk.BooleanVar()
-        self.checkbox = Checkbox(self.frame, text="Ignorar Primeira Coluna",var=self.checked)        
+        self.checkbox = tk.Checkbutton(self.frame, text="Ignorar Primeira Coluna",var=self.checked)        
         self.checkbox.pack(side="left")
 
-    def pack(self, **kwargs):
-        self.frame.pack(**kwargs)
 
-    def grid(self, **kwargs):
-        self.frame.grid(**kwargs)
-
-    def button_config(self, **kwargs):
-        self.btn.config(**kwargs)
-
-class Left_panel:
+class Left_panel(WidModify):
     def __init__(self, parent, **kwargs):
         self.frame = tk.Frame(parent, **kwargs)
-        self.listbox = Listbox(parent=parent, width=50, height=80)
+        super().__init__(self.frame)
+
+        self.listbox = tk.Listbox(parent, width=50, height=80)
         self.listbox.pack(pady=20, padx=20)
-        self.bind = self.listbox.bind()
 
 
-    def pack(self, **kwargs):
-        self.frame.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.frame.grid(**kwargs)
-
-class Entry:
-    def __init__(self, parent):
-        self.entry = tk.Entry(parent)
-
-    def pack(self, **kwargs):
-        self.entry.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.entry.grid(**kwargs)
-
-    def get(self):
-        return self.entry.get()
-
-class Label:
-    def __init__(self, parent, text):
-        self.label = tk.Label(parent,text=text)
-
-    def pack(self, **kwargs):
-        self.label.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.label.grid(**kwargs)
-
-    def get(self):
-        return self.label.get()
-    
-class Button:
-    def __init__(self, parent, text):
-        self.button = tk.Button(parent, text=text, background="green")
-    
-    def pack(self, **kwargs):
-        self.button.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.button.grid(**kwargs)
-
-    def config(self, **kwargs):
-        self.button.config(**kwargs)
-
-class Checkbox:
-    def __init__(self, parent, text, var):
-        self.checkbutton = tk.Checkbutton(master=parent, text=text, variable=var)
-
-    def pack(self, **kwargs):
-        self.checkbutton.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self.checkbutton.grid(**kwargs)  
-    
-    
-
-class Listbox:
+class Right_panel(WidModify):
     def __init__(self, parent, **kwargs):
-        self.listbox = tk.Listbox(parent, **kwargs)
+        self.frame = tk.Frame(parent, **kwargs)
+        super().__init__(self.frame)
+        self.removeChar = Cont_label_input(self.frame, width=100, height=100)
+        self.removeChar.pack(side='top', fill='x', expand=False)
+        self.removeChar.label.config(text="Remover estes caracteres")
 
-    def pack(self, **kwargs):
-        self.listbox.pack(**kwargs)
 
-    def grid(self, **kwargs):
-        self.listbox.grid(**kwargs)
-
-    def delete(self):
-        self.listbox.delete(0, tk.END)
-
-    def insert(self, s, e):
-        self.listbox.insert(s, e)
-
-    def bind(self, **kwargs):
-        return self.listbox.bind(**kwargs)
-    
-    def curselection(self):
-        return self.listbox.curselection()
-
-class Dropdown:
+class Cont_label_input(WidModify):
     def __init__(self, parent, **kwargs):
-        self.dropdown = ttk.Combobox(parent, **kwargs)
+        self.frame = tk.Frame(parent, **kwargs)
+        super().__init__(self.frame)
+        self.label = tk.Label(self.frame)
+        self.entry = tk.Entry(self.frame)
 
-    def pack(self, **kwargs):
-        self.dropdown.pack(**kwargs)
 
-    def grid(self, **kwargs):
-        self.dropdown.grid(**kwargs)
 
-    def current(self, i: int):
-        self.dropdown.current(i)
 
 class Data:
     def __init__(self):
