@@ -36,14 +36,7 @@ class MainFrame:
 
         self.left = Left_panel(self.root, width=300, height=600)
         self.left.pack(side='left', fill='both', expand=True)
-        self.left.bind('<<ListboxSelect>>', self.logic2.on_select)
-        
-
-        # self.left = Frame(self.root,width=300, height=600)
-        # self.left.pack(side='left', fill='both', expand=True)
-
-        # self.right = Frame(self.root,width=300, height=600)
-        # self.right.pack(side='right', fill='both', expand=True)
+        self.left.listbox.bind(sequence='<<ListboxSelect>>', func=self.logic.on_select)
 
         
 
