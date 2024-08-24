@@ -56,13 +56,8 @@ class Applogic:
             
             except Exception as e:
                 messagebox.showerror("Error", f"Could not load file: {e}")
-    
 
-class Applogic2:
-    def __init__(self, ui):
-        self.ui = ui
-
-    def on_select(self):
+    def on_select(self, event):
         index = self.ui.left.listbox.curselection()
         print(index)
 
