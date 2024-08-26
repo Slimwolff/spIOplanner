@@ -4,27 +4,10 @@ from data.constants import global_data, data_boilerplate
 import pandas as pd
 import json
 
-
-# Function to save Data to a JSON file
-def save_data():
-    file_path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
-    if file_path:
-        with open(file_path, 'w') as file:
-            json.dump(Data, file, indent=4)
-        messagebox.showinfo("Save", "File saved successfully!")
-
-# Function to open and load Data from a JSON file
-def open_data():
-    file_path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
-    if file_path:
-        global Data
-        with open(file_path, 'r') as file:
-            Data = json.load(file)
-        messagebox.showinfo("Open", "File opened successfully!")
-        # Optionally, refresh the GUI to reflect loaded data
+global_index = "" #global variale to set active listbox
 
 
-class Applogic:
+class Methods:
     def __init__(self, ui):
         self.ui = ui
 
@@ -58,8 +41,46 @@ class Applogic:
                 messagebox.showerror("Error", f"Could not load file: {e}")
 
     def on_select(self, event):
-        index = self.ui.left.listbox.curselection()
-        print(index)
+        
+        
+        if(global_index != ""):
+            column = self.ui.right.column.value.get()
+            max_char = self.ui.right.maxChars.entry.get()
+            reduceLast = self.ui.right.maxChars.entry.get()
+            remove = self.ui.right.maxChars.entry.get()
+
+            # save_global_data
+            # reset entries
+            
+        else:
+            global global_index
+            global_index = self.ui.left.listbox.curselection()[0]
+
+        
+
+    # Function to save Data to a JSON file
+    def save_data(self, event=None):
+        print(event)
+        file_path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
+        if file_path:
+            with open(file_path, 'w') as file:
+                json.dump(global_data, file, indent=4, ensure_ascii=False)
+            messagebox.showinfo("Save", "File saved successfully!")
+
+    # Function to open and load Data from a JSON file
+    def open_data(self, event=None):
+        print(event)
+        file_path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+        if file_path:
+            global global_data
+            with open(file_path, 'r') as file:
+                global_data = json.load(file)
+            messagebox.showinfo("Open", "File opened successfully!")
+            # Optionally, refresh the GUI to reflect loaded data
+
+    def debug_data(self, event=None):
+        global global_data
+        print(global_data)
 
 
 def tdt(a,removeChars="",reduce=-1,reduceLast=-1):
