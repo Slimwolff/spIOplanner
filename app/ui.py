@@ -77,6 +77,7 @@ class Right_panel(WidModify):
         self.maxChars = Cont_label_input(self.frame, width=100, height=100)
         self.maxChars.pack(side='top', pady=5, fill='x', expand=False)
         self.maxChars.label.config(text="Maximo de chacteres")
+
         self.reduceLast = Cont_label_input(self.frame, width=100, height=100)
         self.reduceLast.pack(side='top', pady=5,fill='x', expand=False)
         self.reduceLast.label.config(text="Remover charecters finais")
@@ -90,42 +91,13 @@ class Cont_label_input(WidModify):
         self.entry = tk.Entry(self.frame)
         self.entry.pack(side='left',ipadx=40, ipady=10)
 
+
 class Cont_dropdown(WidModify):
     def __init__(self, parent, **kwargs):
         self.frame = tk.Frame(parent, **kwargs)
         super().__init__(self.frame)
+        self.label = tk.Label(self.frame,text="Select Column for model")
+        self.label.pack(side='left')
         self.value = tk.StringVar()
         self.dropdown = ttk.Combobox(self.frame, textvariable=self.value)
         self.dropdown.pack(pady=20)
-
-
-
-
-
-class Data:
-    def __init__(self):
-        self._attributes = {}
-
-    def __setitem__(self, key, value):
-        self._attributes[key] = value
-
-    def __getitem__(self, key):
-        return self._attributes[key]
-    
-    def __getattr__(self, key):
-        getattr(self, key)
-
-    def __setattr__(self, key, value):
-        if key == '_attributes':
-            super().__setattr__(key, value)
-        else:
-            self._attributes[key] = value
-
-    def keys(self):
-        return self._attributes.keys()
-
-    def values(self):
-        return self._attributes.values()
-
-    def items(self):
-        return self._attributes.items()

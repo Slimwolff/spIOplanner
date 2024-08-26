@@ -1,15 +1,31 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from data.constants import global_data, data_boilerplate
+from data.constants import global_data, data_boilerplate, Boilerplate
+
 import pandas as pd
 import json
 
+global global_index
 global_index = "" #global variale to set active listbox
 
+
+class ListboxMethods:
+    def __init__(self, ui):
+        self.ui = ui
+
+    def get(self, index):
+        return self.ui.left.listbox.get(index)
+    def fill(self,value):
+        self.ui.left.listbox.insert(tk.END, value)
+    def delete(self):
+        self.ui.left.listbox.delete(0, tk.END)
+    def select_set(self, i):
+        self.ui.left.listbox.select_set(i)
 
 class Methods:
     def __init__(self, ui):
         self.ui = ui
+        self.listbox = ListboxMethods(self.ui)
 
     def load_sheet(self):
         # Open a file dialog to select the Excel file
@@ -21,8 +37,7 @@ class Methods:
                 df = pd.read_csv(file_path, sep=";", encoding_errors=False, engine='python', na_filter=False)
                 
                 # Clear the listbox before showing new column names
-                self.ui.left.listbox.delete(0, tk.END)
-               
+                self.listbox.delete()
                 cols = []
                 cond = self.ui.top.checked.get()  # Access checked state from MainFrame
                 for column in df.columns:
@@ -34,29 +49,73 @@ class Methods:
                 
                 #Insert column names into the listbox
                 for k in cols:
-                    self.ui.left.listbox.insert(tk.END, k)
-                    global_data[k] = data_boilerplate  # Note: Consider avoiding global variables
-            
+                    self.listbox.fill(k)
+                    global_data[k] = { "column": "", "max_char": -1, "reduceLast": -1, "remove": "", "$": []}  # Note: Consider avoiding global variables
+
+                self.listbox.select_set(0)
+                global_index = self.listbox.select_set(0)
             except Exception as e:
                 messagebox.showerror("Error", f"Could not load file: {e}")
 
     def on_select(self, event):
-        
-        
+        global global_index
+        i = self.ui.left.listbox.curselection()[0]
+        selected = self.listbox.get(i)
+        print(selected)
+
         if(global_index != ""):
             column = self.ui.right.column.value.get()
             max_char = self.ui.right.maxChars.entry.get()
-            reduceLast = self.ui.right.maxChars.entry.get()
-            remove = self.ui.right.maxChars.entry.get()
+            reduceLast = self.ui.right.reduceLast.entry.get()
+            remove = self.ui.right.removeChar.entry.get()
 
-            # save_global_data
-            # reset entries
+            if(column != ""):
+                global_data[selected]['column'] = column
+            else:
+                global_data[selected]['column'] = ""
+            if(max_char != ""):
+                global_data[selected]['max_char'] = int(max_char)
+            else:
+                global_data[selected]['max_char'] = -1
+            if(reduceLast != ""):
+                global_data[selected]['reduceLast'] = int(reduceLast)
+            else:
+                global_data[selected]['reduceLast'] = -1
+            if(remove != ""):
+                global_data[selected]['remove'] = remove
+            else:
+                global_data[selected]['remove'] = ""
+
+        if(selected != ""):
+
+            column = global_data[selected]['column']
+            max_char = global_data[selected]['max_char']
+            reduceLast = global_data[selected]['reduceLast']
+            remove = global_data[selected]['remove']
+
+            if(column == ""):
+                pass
             
-        else:
-            global global_index
-            global_index = self.ui.left.listbox.curselection()[0]
+            if(max_char == -1):
+                self.ui.right.maxChars.entry.delete(0, tk.END)
+                self.ui.right.maxChars.entry.insert(0, "")
+            else:
+                self.ui.right.maxChars.entry.delete(0, tk.END)
+                self.ui.right.maxChars.entry.insert(0, max_char)
 
-        
+            if(reduceLast == -1):
+                self.ui.right.reduceLast.entry.delete(0, tk.END)
+                self.ui.right.reduceLast.entry.insert(0, reduceLast)
+            else:
+                self.ui.right.reduceLast.entry.delete(0, tk.END)
+                self.ui.right.reduceLast.entry.insert(0, reduceLast)
+
+            if(remove == ""):
+                self.ui.right.removeChar.entry.delete(0, tk.END)
+                self.ui.right.removeChar.entry.insert(0, "")
+            else:
+                self.ui.right.removeChar.entry.delete(0, tk.END)
+                self.ui.right.removeChar.entry.insert(0, remove)
 
     # Function to save Data to a JSON file
     def save_data(self, event=None):
@@ -79,7 +138,6 @@ class Methods:
             # Optionally, refresh the GUI to reflect loaded data
 
     def debug_data(self, event=None):
-        global global_data
         print(global_data)
 
 

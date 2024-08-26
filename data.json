@@ -1,0 +1,127 @@
+{
+    "codPessoa": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "codEmpresa": {
+        "column": "", 
+        "max_char": 40, 
+        "reduceLast": 5, 
+        "remove": "",
+        "$": []
+    },
+    "Nome": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "Fone": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "CNPJ/CPF": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "Razão Social": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "Município": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "UF": {
+        "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+        "$": []
+    },
+    "Atividade": {
+        "column": ", "max_char": 40,
+        "reduceLast": 5,
+        "remove": ", "$": []}, "Código Pessoa": {"column": ",
+        "max_char": 40,
+        "reduceLast": 5,
+        "remove": ", "$": []}, "Email": {"column": ",
+        "max_char": 40,
+        "reduceLast": 5,
+        "remove": ", "$": []}, "Entrega Bairro": {"column": ",
+        "max_char": 40,
+        "reduceLast": 5,
+        "remove": ", "$": []}, "ST Endereco": {"column": ",
+        "max_char": 40,
+        "reduceLast": 5,
+        "remove": ", "$": []}, "ST Cidade": {
+            "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+            "$": []
+        },
+        "ST UF": {
+            "column": ", "max_char": 40, "reduceLast": 5, "remove": ", "$": []}, "ST Complemento": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "ST Numero": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca Bairro": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca Endereco": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca Cidade": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca UF": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca Complemento": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca Numero": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Data Cadastro": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Tipo Pessoa": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Inscricao Estadual": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Limite Credito": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Inscricao Municipal": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "ST Bairro": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "ST CEP": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Cobranca CEP": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Entrega Cep": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Entrega Endereco": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Entrega Cidade": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []}, "Entrega Complemento": {"column": ",
+            "max_char": 40,
+            "reduceLast": 5,
+            "remove": ", "$": []
+        },
+        "Entrega Numero": {
+            "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+            "$": []
+        },
+        "Entrega UF": {
+            "column": ", "max_char": 40, "reduceLast": 5, "remove": ",
+            "$": []
+        }
+    }
