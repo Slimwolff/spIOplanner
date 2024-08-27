@@ -10,6 +10,8 @@ class WidModify:
         self.any.pack(**kwargs)
     def grid(self, **kwargs):
         self.any.grid(**kwargs)
+    def bind(self, event, command):
+        self.any.bind(event, command)
 
 class MainFrame:
     def __init__(self, root, geometry):
@@ -27,8 +29,11 @@ class MainFrame:
 
         self.top = Top_panel(self.root, width=200, background='blue', height=150)
         self.top.pack(side='top', fill='x', expand=True)
-        self.top.button.config(command=self.logic.load_sheet)
+        self.top.button.config(command=self.logic.set_spread)
         self.top.debug.config(command=self.logic.debug_data)
+        self.top.deploy.config(command=self.logic.deploy)
+        self.top.center_left.dropdown.bind('<<ComboboxSelected>>', self.logic.load_sheet_listbox)
+        self.top.center_right.dropdown.bind('<<ComboboxSelected>>', self.logic.load_sheet_data)
 
         self.right = Right_panel(self.root, width=300, height=600, background='green')
         self.right.pack(side='right', fill='both', expand=True)
@@ -44,13 +49,33 @@ class Top_panel(WidModify):
         self.frame = tk.Frame(parent, **kwargs)
         super().__init__(self.frame)
 
-        self.debug = tk.Button(self.frame, text="Debug global_data")
-        self.debug.pack(side='right',ipadx=10,ipady=10)
-        self.button = tk.Button(self.frame,text="Submit sheets")
+        self.right = tk.Frame(self.frame, width=100, height=150)
+        self.right.pack(side='right',)
+
+        self.left = tk.Frame(self.frame, width=100, height=150)
+        self.left.pack(side='left', expand=False)
+        self.button = tk.Button(self.left,text="Submit sheets")
         self.button.pack(ipadx=10,ipady=10)
         self.checked = tk.BooleanVar()
-        self.checkbox = tk.Checkbutton(self.frame, text="Ignorar Primeira Coluna",var=self.checked)        
+        self.checkbox = tk.Checkbutton(self.left, text="Ignorar Primeira Coluna",var=self.checked)        
         self.checkbox.pack(side="left")
+
+        self.center = tk.Frame(self.frame, height=150)
+        self.center.pack(fill='both', expand=True)
+
+        self.center_right = Cont_dropdown(self.center, width=150, height=150) 
+        self.center_right.pack(side='right')
+        self.center_right.label.config(text='Planilha de dados')
+        self.center_left = Cont_dropdown(self.center, width=150, height=150)
+        self.center_left.pack(side='left')
+        self.center_left.label.config(text='Coluna modelo:')
+        # right container
+        self.debug = tk.Button(self.right, text="Debug global_data")
+        self.debug.pack(side='right',ipadx=10,ipady=10)
+
+        self.deploy = tk.Button(self.right, text="Deploy spreadsheet")
+        self.deploy.pack(side='right',ipadx=10,ipady=10)
+        
 
 
 class Left_panel(WidModify):
@@ -100,4 +125,6 @@ class Cont_dropdown(WidModify):
         self.label.pack(side='left')
         self.value = tk.StringVar()
         self.dropdown = ttk.Combobox(self.frame, textvariable=self.value)
+        self.dropdown['values'] = ('None')
+        self.dropdown.current(0) 
         self.dropdown.pack(pady=20)

@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from data.constants import global_data, data_boilerplate, Boilerplate
@@ -26,16 +27,36 @@ class Methods:
     def __init__(self, ui):
         self.ui = ui
         self.listbox = ListboxMethods(self.ui)
+        self.selected = ""
+        self.global_data = {}
+        self.spreadsheets = []
+        self.model_csv = None
+        self.data_csv= None
 
-    def load_sheet(self):
-        # Open a file dialog to select the Excel file
+    def set_spread(self):
         file_path = filedialog.askopenfilename(filetypes=[("Files", "*.csv")])
+        if file_path not in self.spreadsheets:
+            spread = {
+                "file_path": file_path,
+                "file_name": os.path.basename(file_path)
+            }
+            self.spreadsheets.append(spread)
+
+        default_value = 'None'
+        self.ui.top.center_left.dropdown['values'] = (default_value, *(item['file_name'] for item in self.spreadsheets))
+        self.ui.top.center_right.dropdown['values'] = (default_value, *(item['file_name'] for item in self.spreadsheets))
+
+    def load_sheet_listbox(self, event):
+        file_name = self.ui.top.center_left.value.get()
+        file_path = next((item["file_path"] for item in self.spreadsheets if item["file_name"] == file_name), None)
         
         if file_path:
             try:
                 # Read the Excel file
                 df = pd.read_csv(file_path, sep=";", encoding_errors=False, engine='python', na_filter=False)
-                
+                self.model_csv = df
+                #clear global data
+                self.global_data = {}
                 # Clear the listbox before showing new column names
                 self.listbox.delete()
                 cols = []
@@ -50,72 +71,85 @@ class Methods:
                 #Insert column names into the listbox
                 for k in cols:
                     self.listbox.fill(k)
-                    global_data[k] = { "column": "", "max_char": -1, "reduceLast": -1, "remove": "", "$": []}  # Note: Consider avoiding global variables
+                    self.global_data[k] = { "column": "", "max_char": -1, "reduceLast": -1, "remove": "", "value": list() }  # Note: Consider avoiding global variables
 
-                self.listbox.select_set(0)
-                global_index = self.listbox.select_set(0)
+
             except Exception as e:
                 messagebox.showerror("Error", f"Could not load file: {e}")
 
+    def load_sheet_data(self, event):
+        file_name = self.ui.top.center_right.value.get()
+        file_path = next((item["file_path"] for item in self.spreadsheets if item["file_name"] == file_name), None)
+
+        if file_path:
+            try:
+                # Read the Excel file
+                df = pd.read_csv(file_path, sep=";", encoding_errors=False, engine='python', na_filter=False)
+                self.data_csv = df
+
+                cols = []
+                for column in df.columns:
+                    cols.append(column)
+                
+                #Insert column names into the dropdown
+                self.ui.right.column.dropdown['values'] = (cols)
+
+                    
+            except Exception as e:
+                messagebox.showerror("Error", f"Could not load file: {e}")    
+
     def on_select(self, event):
-        global global_index
-        i = self.ui.left.listbox.curselection()[0]
-        selected = self.listbox.get(i)
-        print(selected)
+        try:
+            # Get the selected index and value from the Listbox
+            i = self.ui.left.listbox.curselection()[0]
+            new_selection = self.ui.left.listbox.get(i)
 
-        if(global_index != ""):
-            column = self.ui.right.column.value.get()
-            max_char = self.ui.right.maxChars.entry.get()
-            reduceLast = self.ui.right.reduceLast.entry.get()
-            remove = self.ui.right.removeChar.entry.get()
+            # If there is a previous selection, update global_data
+            if self.selected is not None:
+                self.update_global_data(self.selected)
 
-            if(column != ""):
-                global_data[selected]['column'] = column
-            else:
-                global_data[selected]['column'] = ""
-            if(max_char != ""):
-                global_data[selected]['max_char'] = int(max_char)
-            else:
-                global_data[selected]['max_char'] = -1
-            if(reduceLast != ""):
-                global_data[selected]['reduceLast'] = int(reduceLast)
-            else:
-                global_data[selected]['reduceLast'] = -1
-            if(remove != ""):
-                global_data[selected]['remove'] = remove
-            else:
-                global_data[selected]['remove'] = ""
+            # Update self.selected to the new selection
+            self.selected = new_selection
 
-        if(selected != ""):
+            # Load the data corresponding to the new selection
+            self.load_selection_data(self.selected)
 
-            column = global_data[selected]['column']
-            max_char = global_data[selected]['max_char']
-            reduceLast = global_data[selected]['reduceLast']
-            remove = global_data[selected]['remove']
+        except IndexError:
+            print("No item is selected in the Listbox.")
 
-            if(column == ""):
-                pass
-            
-            if(max_char == -1):
-                self.ui.right.maxChars.entry.delete(0, tk.END)
-                self.ui.right.maxChars.entry.insert(0, "")
-            else:
-                self.ui.right.maxChars.entry.delete(0, tk.END)
-                self.ui.right.maxChars.entry.insert(0, max_char)
+    def update_global_data(self, event):
+        """Update global_data with the current values from the entry widgets."""
 
-            if(reduceLast == -1):
-                self.ui.right.reduceLast.entry.delete(0, tk.END)
-                self.ui.right.reduceLast.entry.insert(0, reduceLast)
-            else:
-                self.ui.right.reduceLast.entry.delete(0, tk.END)
-                self.ui.right.reduceLast.entry.insert(0, reduceLast)
+        key = self.selected
 
-            if(remove == ""):
-                self.ui.right.removeChar.entry.delete(0, tk.END)
-                self.ui.right.removeChar.entry.insert(0, "")
-            else:
-                self.ui.right.removeChar.entry.delete(0, tk.END)
-                self.ui.right.removeChar.entry.insert(0, remove)
+        column = self.ui.right.column.value.get()
+        max_char = self.ui.right.maxChars.entry.get()
+        reduceLast = self.ui.right.reduceLast.entry.get()
+        remove = self.ui.right.removeChar.entry.get()
+
+        if key:
+            self.global_data[key]['column'] = column if column != "" else ""
+            self.global_data[key]['max_char'] = int(max_char) if max_char != "" else -1
+            self.global_data[key]['reduceLast'] = int(reduceLast) if reduceLast != "" else -1
+            self.global_data[key]['remove'] = remove if remove != "" else ""
+        
+
+    def load_selection_data(self, key):
+        """Load the selected item's data into the entry widgets."""
+        data = self.global_data[key]
+
+        # self.ui.right.column.entry.delete(0, tk.END)
+        # self.ui.right.column.entry.insert(0, data['column'])
+
+        self.ui.right.maxChars.entry.delete(0, tk.END)
+        self.ui.right.maxChars.entry.insert(0, data['max_char'] if data['max_char'] != -1 else "")
+
+        self.ui.right.reduceLast.entry.delete(0, tk.END)
+        self.ui.right.reduceLast.entry.insert(0, data['reduceLast'] if data['reduceLast'] != -1 else "")
+
+        self.ui.right.removeChar.entry.delete(0, tk.END)
+        self.ui.right.removeChar.entry.insert(0, data['remove'])
+        
 
     # Function to save Data to a JSON file
     def save_data(self, event=None):
@@ -138,9 +172,18 @@ class Methods:
             # Optionally, refresh the GUI to reflect loaded data
 
     def debug_data(self, event=None):
-        print(global_data)
+        print("FCOD",self.global_data['FCOD'])
+        print(self.selected)
 
+    def deploy(self, event=None):
+        k = list(self.global_data)
 
+        for i in k:
+            if self.global_data[i]['column']:
+                col = self.global_data[i]['column']
+                content = list(self.data_csv[col])
+                self.global_data[i]['value'].append(content)
+   
 def tdt(a,removeChars="",reduce=-1,reduceLast=-1):
     arr = a
     for a in range(len(arr)):
