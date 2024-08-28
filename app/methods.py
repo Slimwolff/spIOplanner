@@ -180,27 +180,30 @@ class Methods:
 
         for i in k:
             if self.global_data[i]['column']:
+
                 col = self.global_data[i]['column']
-                content = list(self.data_csv[col])
-                self.global_data[i]['value'].append(content)
-   
-def tdt(a,removeChars="",reduce=-1,reduceLast=-1):
-    arr = a
-    for a in range(len(arr)):
-        arr[a] = str(arr[a])
-
-    if(removeChars != ""):
-        rc = list(removeChars)
-        for i in range(len(arr)):
-            for x in rc:
-                arr[i] = arr[i].replace(x, "")
+                for key in list(self.data_csv[col]):
+                    item = key
+                    if self.global_data[i]['max_char'] != -1:
+                        item = self.reduce(item,self.global_data[i]['max_char'])
+                    if self.global_data[i]['reduceLast'] != -1:
+                        item = self.reduceLast(item, self.global_data[i]['reduceLast'])
+                    if self.global_data[i]['remove']:
+                        item = self.removeChars(item, self.global_data[i]['remove'])
+                    self.global_data[i]['value'].append(item)
     
-    if(reduce != -1):
-        for i in range(len(arr)):
-            arr[i] = arr[i][0:reduce]
+    def removeChars(self, item, chars):
+        rc = list(chars)
+        a = str(item)
+        for i in rc:
+            a.replace(i, "")
+        return a
+    
+    def reduce(self, item, n):
+        item = str(item)
+        return item[:n]
 
-    if(reduceLast != -1):
-        for i in range(len(arr)):
-            arr[i] = arr[i][0:len(arr[i])-reduceLast]
+    def reduceLast(self, item, n):
+        item = str(item)
+        return item[:len(item)-n]
 
-    return arr

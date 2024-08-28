@@ -1,0 +1,261 @@
+{
+    "codPessoa": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "codEmpresa": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Nome": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Fone": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "CNPJ/CPF": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Raz\u00e3o Social": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Munic\u00edpio": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "UF": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Atividade": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "C\u00f3digo Pessoa": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Email": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Bairro": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST Endereco": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST Cidade": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST UF": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST Complemento": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST Numero": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca Bairro": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca Endereco": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca Cidade": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca UF": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca Complemento": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca Numero": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Data Cadastro": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Tipo Pessoa": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Inscricao Estadual": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Limite Credito": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Inscricao Municipal": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST Bairro": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "ST CEP": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Cobranca CEP": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Cep": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Endereco": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Cidade": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Complemento": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega Numero": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    },
+    "Entrega UF": {
+        "column": "",
+        "max_char": -1,
+        "reduceLast": -1,
+        "remove": "",
+        "$": []
+    }
+}
