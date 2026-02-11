@@ -48,6 +48,6 @@ Fluxel leverages:
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/yourusername/fluxel.git
+git clone https://github.com/slimwolff/fluxel.git
 cd fluxel
 pip install -r requirements.txt
